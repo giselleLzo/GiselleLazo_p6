@@ -1,0 +1,17 @@
+
+> v8-profiler@5.7.0 preinstall C:\Users\Gisell\Desktop\CursoOpenC\Projet6\GiselleLazo_p6\backend\node_modules\node_modules\node-inspector\node_modules\v8-profiler
+> node -e 'process.exit(0)'
+
+
+> v8-debug@1.0.1 preinstall C:\Users\Gisell\Desktop\CursoOpenC\Projet6\GiselleLazo_p6\backend\node_modules\node_modules\node-inspector\node_modules\v8-debug
+> node -e 'process.exit(0)'
+
+C:\Users\Gisell\Desktop\CursoOpenC\Projet6\GiselleLazo_p6\backend\node_modules\appjs -> C:\Users\Gisell\Desktop\CursoOpenC\Projet6\GiselleLazo_p6\backend\node_modules\node_modules\app.js\bin\appjs
+C:\Users\Gisell\Desktop\CursoOpenC\Projet6\GiselleLazo_p6\backend\node_modules\node-inspector -> C:\Users\Gisell\Desktop\CursoOpenC\Projet6\GiselleLazo_p6\backend\node_modules\node_modules\node-inspector\bin\inspector.js
+C:\Users\Gisell\Desktop\CursoOpenC\Projet6\GiselleLazo_p6\backend\node_modules\node-debug -> C:\Users\Gisell\Desktop\CursoOpenC\Projet6\GiselleLazo_p6\backend\node_modules\node_modules\node-inspector\bin\node-debug.js
+
+> contextify@0.1.15 install C:\Users\Gisell\Desktop\CursoOpenC\Projet6\GiselleLazo_p6\backend\node_modules\node_modules\app.js\node_modules\contextify
+> node-gyp rebuild
+
+
+C:\Users\Gisell\Desktop\CursoOpenC\Projet6\GiselleLazo_p6\backend\node_modules\node_modules\app.js\node_modules\contextify>if not defined npm_config_node_gyp (node "C:\Program Files\nodejs\node_modules\npm\node_modules\npm-lifecycle\node-gyp-bin\\..\..\node_modules\node-gyp\bin\node-gyp.js" rebuild )  else (node "C:\Program Files\nodejs\node_modules\npm\node_modules\node-gyp\bin\node-gyp.js" rebuild ) 
