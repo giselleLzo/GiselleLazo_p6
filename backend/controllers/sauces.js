@@ -1,104 +1,41 @@
-const Thing = require('../models/Thing');
+const Sauce = require('../models/Sauces');
 const fs = require('fs');
 
 //Création d'un produit
 
-exports.createThing = (req, res, next) => {
-    const thingObject = JSON.parse(req.body.thing);
-    delete thingObject._id;
-    const thing = new Thing ({
-        ...thingObject,
+exports.createSauce = (req, res, next) => {
+    const sauceObject = JSON.parse(req.body.sauce);
+    delete sauceObject._id;
+    const sauce = new Sauce ({
+        ...sauceObject,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     });
-    thing.save()
+    sauce.save()
         .then(() => res.status(201).json({ message: 'objet enregistre'}))
         .catch(error => res.status(400).json({ error }));
 };
 
 //Modification d'un produit
 
-exports.modifyThing = (req, res, next) => {
-    const thingObject = req.file ?
+exports.modifySauce = (req, res, next) => {
+    const sauceObject = req.file ?
     {
-        ...JSON.parse(req.body.thing),
+        ...JSON.parse(req.body.sauce),
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : { ...req.body };
-    Thing.updateOne({ _id: req.params.id}, { ...thingObject, _id: req.params.id })
+    Sauce.updateOne({ _id: req.params.id}, { ...sauceObject, _id: req.params.id })
         .then(() => res.status(200).json({ message: 'objet modifie' }))
         .catch(error => res.status(400).json({ error }));
 };
 
-//Likes et dislikes d'un produit
-
-exports.likeThing = (req, res, next) => {
-    Object.findOne({ _id: req.params.id })
-      .then((thing) => {
-        const indexLike = thing.usersLiked.findIndex(
-          (e) => e === req.body.userId
-        );
-        const indexDislike = thing.usersDisliked.findIndex(
-          (e) => e === req.body.userId
-        );
-
-        switch (req.body.like) {
-            case 1: //si l'utilisateur aime la sauce
-              if (indexLike <= -1) {
-                thing.usersLiked.push(req.body.userId);
-                thing.likes += 1;
-              }
-              if (indexDislike > -1) { 
-                thing.usersDisliked.splice(indexDislike, 1);
-                thing.dislikes -= 1;
-              }
-              break;
-            case 0: 
-              if (indexLike > -1) {
-                thing.usersLiked.splice(indexLike, 1);
-                thing.likes -= 1;
-              }
-    
-              if (indexDislike > -1) {
-                thing.usersDisliked.splice(indexDislike, 1);
-                thing.dislikes -= 1;
-              }
-              break;
-            case -1: // si l'utilisateur n'aime pas la sauce
-              if (indexLike > -1) {
-                thing.usersLiked.splice(indexLike, 1);
-                thing.likes -= 1;
-              }
-              if (indexDislike <= -1) {
-                thing.usersDisliked.push(req.body.userId);
-                thing.dislikes += 1;
-              }
-    
-              break;
-          }
-    
-          Thing.updateOne({ _id: req.params.id },
-              {
-                likes: thing.likes,
-                dislikes: thing.dislikes,
-                usersLiked: thing.usersLiked,
-                usersDisliked: thing.usersDisliked,
-              }
-            )
-            .then((result) => {
-              result ? res.status(200).json(result) : res.status(401).json(null);
-            })
-            .catch((error) => res.status(400).json({ error }));
-        })
-        .catch((error) => res.status(400).json({ error }));
-    };
-
 //Suppression d'un produit
 
-exports.deleteThing = (req, res, next) => {
-    Thing.findOne({ _id: req.params.id })
-        .then(thing => {
-            const filename = thing.imageUrl.split('/images/')[1];
+exports.deleteSauce = (req, res, next) => {
+    Sauce.findOne({ _id: req.params.id })
+        .then(sauce => {
+            const filename = sauce.imageUrl.split('/images/')[1];
             fs.unlink(`images/${filename}`, () => {
-                Thing.deleteOne({ _id: req.params.id })
+                Sauce.deleteOne({ _id: req.params.id })
                     .then(() => res.status(200).json({ message: 'objet supprime' }))
                     .catch(error => res.status(400).json({ error }));
             });
@@ -108,16 +45,16 @@ exports.deleteThing = (req, res, next) => {
 
 //Récuperation d'un produit
 
-exports.getOneThing = (req, res, next) => {
-    Thing.findOne({ _id: req.params.id })
-        .then(thing => res.status(200).json(thing))
+exports.getOneSauce = (req, res, next) => {
+    Sauce.findOne({ _id: req.params.id })
+        .then(sauce => res.status(200).json(sauce))
         .catch(error => res.status(404).json({ error }));
 };
 
 //Récuperation de tous les produits
 
-exports.getAllThings = (req, res, next) => {
-    Thing.find()
-        .then(things => res.status(200).json(things))
+exports.getAllSauces = (req, res, next) => {
+    Sauce.find()
+        .then(sauces => res.status(200).json(sauces))
         .catch(error => res.status(400).json({ error }));
 };
