@@ -10,7 +10,7 @@ exports.createSauce = (req, res, next) => {
         ...sauceObject,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     });
-    sauce.save()
+    sauce.save() //Sauvegarde dans la base de données
         .then(() => res.status(201).json({ message: 'objet enregistre'}))
         .catch(error => res.status(400).json({ error }));
 };
