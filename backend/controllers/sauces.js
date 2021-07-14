@@ -28,6 +28,69 @@ exports.modifySauce = (req, res, next) => {
         .catch(error => res.status(400).json({ error }));
 };
 
+//Likes et dislikes d'un produit
+
+exports.likeSauce = (req, res, next) => {
+    Sauce.findOne({ _id: req.params.id })
+      .then((sauce) => {
+        const indexLike = sauce.usersLiked.findIndex(
+          (e) => e === req.body.userId
+        );
+        const indexDislike = sauce.usersDisliked.findIndex(
+          (e) => e === req.body.userId
+        );
+
+        switch (req.body.like) {
+            case 1: //si l'utilisateur aime la sauce
+              if (indexLike <= -1) {
+                sauce.usersLiked.push(req.body.userId);
+                sauce.likes += 1;
+              }
+              if (indexDislike > -1) { 
+                sauce.usersDisliked.splice(indexDislike, 1);
+                sauce.dislikes -= 1;
+              }
+              break;
+            case 0: 
+              if (indexLike > -1) {
+                sauce.usersLiked.splice(indexLike, 1);
+                sauce.likes -= 1;
+              }
+    
+              if (indexDislike > -1) {
+                sauce.usersDisliked.splice(indexDislike, 1);
+                sauce.dislikes -= 1;
+              }
+              break;
+            case -1: // si l'utilisateur n'aime pas la sauce
+              if (indexLike > -1) {
+                sauce.usersLiked.splice(indexLike, 1);
+                sauce.likes -= 1;
+              }
+              if (indexDislike <= -1) {
+                sauce.usersDisliked.push(req.body.userId);
+                sauce.dislikes += 1;
+              }
+    
+              break;
+          }
+    
+          Sauce.updateOne({ _id: req.params.id },
+              {
+                likes: sauce.likes,
+                dislikes: sauce.dislikes,
+                usersLiked: sauce.usersLiked,
+                usersDisliked: sauce.usersDisliked,
+              }
+            )
+            .then((result) => {
+              result ? res.status(200).json(result) : res.status(401).json(null);
+            })
+            .catch((error) => res.status(400).json({ error }));
+        })
+        .catch((error) => res.status(400).json({ error }));
+    };
+
 //Suppression d'un produit
 
 exports.deleteSauce = (req, res, next) => {

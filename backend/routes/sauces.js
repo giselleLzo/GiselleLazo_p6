@@ -7,6 +7,7 @@ const multer = require('../middleware/multer-config');
 
 //Routes pour le CRUD des produits
 router.post('/', auth, multer, saucesCtrl.createSauce);
+router.post('/:id/like', auth, saucesCtrl.likeSauce);
 router.put('/:id', auth, multer, saucesCtrl.modifySauce); 
 router.delete('/:id', auth, saucesCtrl.deleteSauce); 
 router.get('/:id', auth, saucesCtrl.getOneSauce);  
