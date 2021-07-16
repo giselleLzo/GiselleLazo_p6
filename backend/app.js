@@ -5,6 +5,7 @@ const path = require('path');
 const cookieSession = require('cookie-session');
 const helmet = require('helmet');
 const rateLimit = require('./middleware/ratelimit');
+const nocache = require('nocache');
 
 const saucesRoutes = require('./routes/sauces');
 const userRoutes = require('./routes/user');
@@ -20,6 +21,7 @@ mongoose.connect(mongoUri, {
     .catch(() => console.log('conexion echoue'));
 
 const app = express();
+app.use(nocache());
 
 app.use(rateLimit); //Limiter les requêtes
 app.use(helmet()); //Protéger les en-têtes http
