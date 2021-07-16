@@ -9,8 +9,11 @@ const rateLimit = require('./middleware/ratelimit');
 const saucesRoutes = require('./routes/sauces');
 const userRoutes = require('./routes/user');
 
+require('dotenv').config();
+const mongoUri = process.env.MONGO_URI
+
 //Conexion à mongoose
-mongoose.connect('mongodb+srv://giselle:Iannick.Loic2@cluster0.fgo1j.mongodb.net/<dbname>?retryWrites=true&w=majority', {
+mongoose.connect(mongoUri, {
     useNewUrlParser: true,
     useUnifiedTopology: true })
     .then(() => console.log('conexion a mongo'))
