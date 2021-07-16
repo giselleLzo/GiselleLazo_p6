@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 
+const cookieSession = require('cookie-session');
+
 const saucesRoutes = require('./routes/sauces');
 const userRoutes = require('./routes/user');
 
@@ -21,6 +23,16 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     next();
 });
+
+//Cookies
+app.use(cookieSession({
+    secret: 'sessionS3cur3',
+    cookie: {
+        secure: true,
+        httpOnly: true,
+        domain: 'http://localhost:3000'
+    }
+}))
 
 app.use(express.urlencoded({extended: true})); 
 app.use(express.json());
