@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 
 const cookieSession = require('cookie-session');
+const helmet = require('helmet');
 
 const saucesRoutes = require('./routes/sauces');
 const userRoutes = require('./routes/user');
@@ -15,6 +16,8 @@ mongoose.connect('mongodb+srv://giselle:Iannick.Loic2@cluster0.fgo1j.mongodb.net
     .catch(() => console.log('conexion echoue'));
 
 const app = express();
+
+app.use(helmet()); //Protéger les en-têtes http
 
 //Acces à l'api
 app.use((req, res, next) => {
