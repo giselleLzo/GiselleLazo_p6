@@ -20,7 +20,7 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
-    User.findOne({ email: MaskData.maskEmail2(req.body.email)}) //Récuperation de l'email de l'utilisateur de la base de données
+    User.findOne({ email: MaskData.maskEmail2(req.body.email)}) //Récupération de l'email de l'utilisateur de la base de données
         .then(user => {
             if (!user) { //Si l'utilisateur n'est pas trouvé
                 return res.status(401).json({ error: 'Utilisateur non trouvé' });
@@ -34,7 +34,7 @@ exports.login = (req, res, next) => {
                         userId: user._id,
                         token: jwt.sign(
                             { userId: user._id },
-                            'RANDOM_TOKEN_SECRET', //Encoder le user
+                            'RANDOM_TOKEN_SECRET', //Encoder l'user
                             { expiresIn: '24h' }
                         )
                     }); 

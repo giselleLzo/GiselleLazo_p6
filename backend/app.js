@@ -13,12 +13,12 @@ const userRoutes = require('./routes/user');
 require('dotenv').config();
 const mongoUri = process.env.MONGO_URI
 
-//Conexion à mongoose
+//Connexion à mongoose
 mongoose.connect(mongoUri, {
     useNewUrlParser: true,
     useUnifiedTopology: true })
-    .then(() => console.log('conexion a mongo'))
-    .catch(() => console.log('conexion echoue'));
+    .then(() => console.log('Connexion à MongoDB réussie'))
+    .catch(() => console.log('Connexion échouée'));
 
 const app = express();
 app.use(nocache());
@@ -26,7 +26,7 @@ app.use(nocache());
 app.use(rateLimit); //Limiter les requêtes
 app.use(helmet()); //Protéger les en-têtes http
 
-//Acces à l'api
+//Accès à l'api
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
