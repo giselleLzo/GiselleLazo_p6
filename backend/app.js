@@ -49,7 +49,7 @@ app.use(express.json());
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
-app.use('/api/auth', userRoutes); //Enregistrer la route d'autentification 
+app.use('/api/auth', userRoutes); //Enregistrer la route d'authentification 
 app.use('/api/sauces', saucesRoutes);
 
 module.exports = app;
