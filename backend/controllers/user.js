@@ -1,15 +1,13 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const MaskData = require("maskdata");
-
 const User = require('../models/User');
 
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10) //Cryptage du mot de passe 
         .then(hash => {
             const user = new User({ //Création du nouveau utilisateur
-                email: MaskData.maskEmail2(req.body.email),
+                email: req.body.email,
                 password: hash
             });
             user.save() //Sauvegarde dans la base de données
@@ -20,7 +18,7 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
-    User.findOne({ email: MaskData.maskEmail2(req.body.email)}) //Récupération de l'email de l'utilisateur de la base de données
+    User.findOne({ email: req.body.email }) //Récupération de l'email de l'utilisateur de la base de données
         .then(user => {
             if (!user) { //Si l'utilisateur n'est pas trouvé
                 return res.status(401).json({ error: 'Utilisateur non trouvé' });
